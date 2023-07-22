@@ -32,15 +32,20 @@ def signal_handler(signal, frame):
 def main():
     past_key_values, history = None, []
     global stop_stream
-    print("欢迎使用 ChatGLM2-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序")
+    stopword = 'q'
+    tip="欢迎使用 ChatGLM2-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序，换行q结束输入"
+    print(tip)
     while True:
-        query = input("\n用户：")
+        print("\n用户：")
+        query = ""
+        for line in iter(input, stopword):  # 每行接收的东西 用了iter的哨兵模式
+            query += line + "\n"  # 换行
         if query.strip() == "stop":
             break
         if query.strip() == "clear":
             past_key_values, history = None, []
             os.system(clear_command)
-            print("欢迎使用 ChatGLM2-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序")
+            print(tip)
             continue
         print("\nChatGLM：", end="")
         current_length = 0

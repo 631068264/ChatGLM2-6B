@@ -1,11 +1,11 @@
 PRE_SEQ_LEN=128
 LR=2e-2
-NUM_GPUS=1
+NUM_GPUS=2
 
 torchrun --standalone --nnodes=1 --nproc-per-node=$NUM_GPUS main.py \
     --do_train \
-    --train_file AdvertiseGen/train.json \
-    --validation_file AdvertiseGen/dev.json \
+    --train_file data/train.json \
+    --validation_file data/dev.json \
     --preprocessing_num_workers 10 \
     --prompt_column content \
     --response_column summary \
@@ -23,6 +23,5 @@ torchrun --standalone --nnodes=1 --nproc-per-node=$NUM_GPUS main.py \
     --logging_steps 10 \
     --save_steps 1000 \
     --learning_rate $LR \
-    --pre_seq_len $PRE_SEQ_LEN \
-    --quantization_bit 4
+    --pre_seq_len $PRE_SEQ_LEN
 
